@@ -1,5 +1,7 @@
 # IDE files
 .vscode
+.idea
+*.iml
 
 # Dependencies
 
