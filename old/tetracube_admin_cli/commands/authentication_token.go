@@ -2,8 +2,7 @@ package commands
 
 import (
 	"encoding/json"
-	"github.com/mdp/qrterminal/v3"
-	"github.com/spf13/cobra"
+	"fmt"
 	"os"
 	"tetracube.red/admin-cli/tetracube_admin_cli/services"
 )
@@ -12,9 +11,14 @@ var authenticationTokenCmd = &cobra.Command{
 	Use:     "auth-token",
 	Aliases: []string{},
 	Short:   "Authentication Token management",
-	Args:    cobra.ExactArgs(0),
+	Args:    cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		responseMap := services.CreateTokenForNewUser(hostAddress)
+		houseName := args[0]
+		fmt.Printf("Creating authentication token for house %s on %s host\n", houseName, hostAddress)
+		responseMap := services.CreateTokenForNewUser(hostAddress, houseName)
+		if responseMap == nil {
+			return
+		}
 		responseMap["host"] = hostAddress
 		jsonValue, _ := json.Marshal(responseMap)
 
